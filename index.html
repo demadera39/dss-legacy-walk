@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#120b0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="img/icon-192.png"><link rel="apple-touch-icon" href="img/icon-192.png">
+<title>What We Carry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;0,900;1,800&family=Open+Sans:wght@400;600;700&display=swap">
+<style>
+/* Night walk, single dark look: DSS red and lime on near-black, heavy condensed caps like the DSS wordmark */
+:root{
+  --ink:#120b0d; --ink-2:#1d1316; --ink-3:#2a1c20; --line:#3a2a2f;
+  --paper:#f6eff1; --muted:#a8969b;
+  --red:#d6144e; --red-deep:#a80f3c; --lime:#c4e11f;
+  --display:"Barlow Condensed","Frutiger LT Std","Arial Narrow",Impact,sans-serif;
+  --body:"Open Sans","Frutiger",Helvetica,Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.caps{font-family:var(--display);text-transform:uppercase;letter-spacing:.02em}
+.label{font:700 11px/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- intro ---------- */
+#intro{min-height:100%;background:var(--red);color:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden}
+#intro .pattern{position:absolute;inset:-20%;opacity:.09;pointer-events:none;transform:rotate(-12deg);font:900 34px/1 var(--display);text-transform:uppercase;word-spacing:.4em;color:#fff;white-space:normal;overflow:hidden}
+.intro-inner{position:relative;flex:1;display:flex;flex-direction:column;gap:22px;padding:max(28px,env(safe-area-inset-top)) 22px max(28px,env(safe-area-inset-bottom));max-width:560px;width:100%;margin:0 auto}
+.intro-mark{width:64px}
+.intro-title{font:900 clamp(64px,22vw,118px)/.84 var(--display);text-transform:uppercase;margin:6px 0 0;letter-spacing:-.005em}
+.intro-title span{display:block}
+.intro-title .lime{color:var(--lime)}
+.intro-sub{font-size:16px;max-width:30ch;margin:0}
+.tips{display:grid;gap:10px;margin:4px 0 0;padding:0;list-style:none}
+.tips li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:14px}
+.tips svg{width:22px;height:22px;margin-top:1px}
+.intro-actions{margin-top:auto;display:grid;gap:12px}
+.btn-start{background:var(--lime);color:var(--ink);font:900 30px/1 var(--display);text-transform:uppercase;padding:20px 22px;border-radius:999px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 0 rgba(0,0,0,.18)}
+.btn-start:active{transform:translateY(3px);box-shadow:0 7px 0 rgba(0,0,0,.18)}
+.intro-foot{font-size:12px;opacity:.85}
+
+/* ---------- tour ---------- */
+#tour{min-height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.top img{width:30px}
+.top .t{font:800 22px/1 var(--display);text-transform:uppercase;flex:1}
+.top .gps{display:flex;align-items:center;gap:6px;font:700 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.gps.on .dot{background:var(--lime);box-shadow:0 0 0 0 rgba(196,225,31,.6);animation:ping 2s infinite}
+.gps.off .dot{background:var(--red)}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(196,225,31,.55)}70%{box-shadow:0 0 0 9px rgba(196,225,31,0)}100%{box-shadow:0 0 0 0 rgba(196,225,31,0)}}
+
+.mapwrap{position:relative;margin:14px 16px 0;border-radius:18px;overflow:hidden;background:var(--ink-2);border:1px solid var(--line)}
+#map{display:block;width:100%;height:auto}
+.mapnote{position:absolute;left:12px;bottom:10px;font-size:11px;color:var(--muted)}
+
+.now{padding:18px 16px 8px;display:grid;gap:10px}
+.now .eyebrow{display:flex;gap:8px;align-items:center}
+.pill{font:800 13px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;padding:6px 10px;border-radius:999px;background:var(--ink-3);color:var(--paper)}
+.pill.here{background:var(--lime);color:var(--ink)}
+.pill.walk{background:var(--red);color:#fff}
+.now h1{font:900 clamp(40px,13vw,64px)/.88 var(--display);text-transform:uppercase;margin:2px 0 0;text-wrap:balance}
+.now .where{color:var(--muted);margin:0}
+.status{font-size:14px;margin:0;min-height:1.5em}
+.status b{color:var(--lime);font-weight:700}
+
+.speaking{display:flex;align-items:center;gap:10px;min-height:22px;font-size:14px}
+.bars{display:flex;gap:3px;align-items:flex-end;height:16px}
+.bars i{width:3px;background:var(--lime);height:30%;border-radius:2px}
+.playing .bars i{animation:eq .9s ease-in-out infinite}
+.playing .bars i:nth-child(2){animation-delay:.2s}.playing .bars i:nth-child(3){animation-delay:.45s}.playing .bars i:nth-child(4){animation-delay:.1s}
+@keyframes eq{0%,100%{height:25%}50%{height:100%}}
+
+.player{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:12px;margin-top:4px}
+.prog{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font:600 12px/1 var(--body);font-variant-numeric:tabular-nums;color:var(--muted)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(var(--red),var(--red)) 0/var(--p,0%) 100% no-repeat,var(--line)}
+input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:var(--line)}
+input[type=range]::-moz-range-progress{height:4px;border-radius:4px;background:var(--red)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--paper);margin-top:-7px}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radius:50%;background:var(--paper)}
+.ctrls{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ib{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--ink-3)}
+.ib svg{width:22px;height:22px}
+.play{width:76px;height:76px;border-radius:50%;background:var(--red);display:grid;place-items:center;box-shadow:0 6px 0 var(--red-deep)}
+.play:active{transform:translateY(2px);box-shadow:0 4px 0 var(--red-deep)}
+.play svg{width:32px;height:32px}
+.ib:disabled,.play:disabled{opacity:.35}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{border-radius:14px;padding:14px 12px;font:800 18px/1 var(--display);text-transform:uppercase;letter-spacing:.03em;background:var(--ink-3);text-align:center}
+.btn.primary{background:var(--lime);color:var(--ink)}
+.btn.full{grid-column:1/-1}
+
+.q{margin:6px 16px 0;padding:16px;border-radius:18px;border:2px dashed var(--line)}
+.q p{margin:6px 0 0;font:800 24px/1.05 var(--display);text-transform:uppercase}
+
+.steps{list-style:none;margin:18px 0 0;padding:0 16px max(28px,env(safe-area-inset-bottom));display:grid;gap:0}
+.steps li{position:relative;display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.steps .n{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:2px solid var(--line);font:900 18px/1 var(--display)}
+.steps .nm{font:800 20px/1 var(--display);text-transform:uppercase}
+.steps .sb{font-size:12px;color:var(--muted)}
+.steps .go{font:700 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 4px}
+.steps li.done .n{background:var(--ink-3);border-color:var(--ink-3);color:var(--muted)}
+.steps li.active .n{background:var(--red);border-color:var(--red);color:#fff}
+.steps li.active .nm{color:var(--paper)}
+.steps li.done .nm{color:var(--muted)}
+
+/* prompt overlay */
+#prompt{position:fixed;inset:0;z-index:20;background:var(--red);color:#fff;display:flex;flex-direction:column;padding:max(28px,env(safe-area-inset-top)) 22px max(28px,env(safe-area-inset-bottom));gap:16px;animation:rise .35s ease-out}
+#prompt .k{font:700 12px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;opacity:.9}
+#prompt .big{font:900 clamp(44px,13vw,80px)/.9 var(--display);text-transform:uppercase;margin:auto 0;text-wrap:balance}
+#prompt .hint{font-size:15px;max-width:32ch}
+#prompt .btn{background:#fff;color:var(--red);font-size:22px;padding:18px}
+#prompt.lanterns{background:var(--ink)}
+#prompt.lanterns .big{color:var(--lime)}
+#prompt.lanterns .btn{background:var(--lime);color:var(--ink)}
+#arrive{position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:15;background:var(--lime);color:var(--ink);border-radius:20px;padding:16px;display:grid;gap:10px;box-shadow:0 18px 40px rgba(0,0,0,.5);animation:rise .3s ease-out;max-width:536px;margin:0 auto}
+#arrive .a1{font:700 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase}
+#arrive .a2{font:900 34px/.9 var(--display);text-transform:uppercase}
+#arrive .row{display:grid;grid-template-columns:1fr auto;gap:10px}
+#arrive .btn{background:var(--ink);color:var(--lime)}
+#arrive .btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+@keyframes rise{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 64px);transform:translateX(-50%);z-index:30;background:var(--paper);color:var(--ink);padding:10px 14px;border-radius:999px;font-weight:600;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:calc(100% - 32px);text-align:center}
+
+/* calibrate */
+#cal{margin:18px 16px 0;padding:14px;border:1px solid var(--lime);border-radius:14px;display:grid;gap:10px}
+#cal textarea{width:100%;min-height:110px;background:var(--ink-2);color:var(--paper);border:1px solid var(--line);border-radius:10px;font:12px/1.4 ui-monospace,Menlo,monospace;padding:8px}
+.settings{margin:16px 16px 0;display:grid;gap:8px}
+.tog{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px;padding:10px 0;border-top:1px solid var(--line)}
+.tog input{width:44px;height:26px;accent-color:var(--lime)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head><body>
+<section id="intro">
+  <div class="pattern" aria-hidden="true" id="pattern"></div>
+  <div class="intro-inner">
+    <img class="intro-mark" src="img/dss-mark.png" alt="Digital Society School">
+    <h1 class="intro-title"><span>What</span><span>we</span><span class="lime">carry</span></h1>
+    <p class="intro-sub">A 15-minute lantern walk around the Amstelcampus, told in our own voices. Four stops, one last look at the Clubhouse.</p>
+    <ul class="tips">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="2" y="14" width="5" height="7" rx="2"/><rect x="17" y="14" width="5" height="7" rx="2"/></svg><span>Use one earbud, so you still hear the group and the guide.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Allow location: the next track starts when you reach a stop.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><span>Keep this screen open. Tap <b>I'm here</b> if a stop doesn't trigger.</span></li>
+    </ul>
+    <div class="intro-actions">
+      <button class="btn-start" id="startBtn"><span>Start the walk</span><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      <div class="intro-foot">Digital Society School · Living Legacy Walk · 20 January</div>
+    </div>
+  </div>
+</section>
+
+<section id="tour" hidden>
+  <header class="top">
+    <img src="img/dss-mark.png" alt="">
+    <div class="t">What we carry</div>
+    <div class="gps" id="gps"><span class="dot"></span><span id="gpsTxt">GPS</span></div>
+  </header>
+
+  <div class="mapwrap"><svg id="map" viewBox="0 0 360 290" role="img" aria-label="Route map with the five stops"></svg><div class="mapnote" id="mapNote">Amstelcampus</div></div>
+
+  <div class="now" id="now">
+    <div class="eyebrow"><span class="pill" id="stepPill">Stop 1</span><span class="pill" id="statePill">Walk</span></div>
+    <h1 id="stepTitle">Beginnings</h1>
+    <p class="where" id="stepWhere">Studio HvA entrance</p>
+    <p class="status" id="status"></p>
+    <div class="player" id="player">
+      <div class="speaking" id="speaking"><span class="bars"><i></i><i></i><i></i><i></i></span><span id="speaker">Ready</span></div>
+      <div class="prog"><span id="tCur">0:00</span><input type="range" id="seek" min="0" max="100" step="0.1" value="0" aria-label="Position in track"><span id="tDur">0:00</span></div>
+      <div class="ctrls">
+        <button class="ib" id="back" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="sans-serif" font-weight="700">10</text></svg></button>
+        <button class="ib" id="restart" aria-label="Restart track"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+        <button class="play" id="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="#fff" id="playIco"><path d="M8 5v14l11-7z"/></svg></button>
+        <button class="ib" id="fwd" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-9-9 9 9 0 016.4 2.6L21 8"/><path d="M21 3v5h-5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="sans-serif" font-weight="700">10</text></svg></button>
+        <button class="ib" id="stopBtn" aria-label="Stop"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg></button>
+      </div>
+    </div>
+    <div class="actions" id="actions">
+      <button class="btn primary" id="hereBtn">I'm here</button>
+      <button class="btn" id="nextBtn">Next stop</button>
+    </div>
+  </div>
+
+  <div class="q" id="qBox" hidden><div class="label">Question at this stop</div><p id="qText"></p></div>
+
+  <ol class="steps" id="steps"></ol>
+
+  <div class="settings">
+    <label class="tog" for="optAuto"><span>Start the track automatically on arrival</span><input type="checkbox" id="optAuto" checked></label>
+    <label class="tog" for="optMusic"><span>Lo-fi music while walking</span><input type="checkbox" id="optMusic" checked></label>
+    <label class="tog" for="optNotify"><span>Alerts and vibration at each stop</span><input type="checkbox" id="optNotify" checked></label>
+  </div>
+
+  <div id="cal" hidden>
+    <div class="label" style="color:var(--lime)">Calibration mode</div>
+    <div style="font-size:13px">Stand at the exact spot of the current stop and tap <b>Set this stop here</b>. Copy the list and send it to Marco.</div>
+    <div class="actions"><button class="btn primary" id="calSet">Set this stop here</button><button class="btn" id="calCopy">Copy list</button></div>
+    <textarea id="calOut" readonly aria-label="Calibrated coordinates"></textarea>
+  </div>
+  <div style="height:24px"></div>
+</section>
+
+<div id="prompt" hidden role="dialog" aria-modal="true" aria-labelledby="pBig">
+  <div class="k" id="pKey">Turn to the person next to you</div>
+  <div class="big" id="pBig"></div>
+  <div class="hint" id="pHint"></div>
+  <button class="btn" id="pClose">Got it</button>
+</div>
+
+<div id="arrive" hidden role="alertdialog" aria-labelledby="arrTitle">
+  <div class="a1" id="arrKicker">You've arrived</div>
+  <div class="a2" id="arrTitle">Studio HvA</div>
+  <div class="row"><button class="btn" id="arrPlay">Play track</button><button class="btn ghost" id="arrLater">Later</button></div>
+</div>
+
+<audio id="aTrack" preload="auto" playsinline></audio>
+<audio id="aLoop" preload="auto" playsinline loop src="audio/walk-loop.mp3"></audio>
+<audio id="aChime" preload="auto" playsinline src="audio/arrive.mp3"></audio>
+
+<script>
+(() => {
+/* ---------------- content ---------------- */
+const STOPS = [
+  { id:0, n:"0", title:"Welcome", where:"Kohnstammhuis exit, Wibautstraat", short:"Kohnstammhuis",
+    lat:52.359048, lon:4.908771, src:"audio/track0.mp3",
+    voices:[[0,"Marco's AI twin"]], cues:[], question:null },
+  { id:1, n:"1", title:"Beginnings", where:"Studio HvA, Eerste Boerhaavestraat 33E", short:"Studio HvA",
+    lat:52.358681, lon:4.907859, src:"audio/track1.mp3",
+    voices:[[0,"Narrator: where it started"],[22.5,"Annika · Social Good Summit 2018"],[38.5,"Tom · our trainees"],[49.5,"Narrator"],[64,"Your turn to share"]],
+    cues:[[55.5,"question"]],
+    question:"What first brought you here, and who opened the door?" },
+  { id:2, n:"2", title:"Learning and community", where:"Rhijnspoorplein", short:"Rhijnspoorplein",
+    lat:52.359979, lon:4.908857, src:"audio/track2.mp3",
+    voices:[[0,"Narrator"],[11,"A trainee · Showcase"],[21,"A trainee · Showcase"],[29,"Narrator"],[35,"A trainee · 2018-19 cohort"],[43,"A 2022 team"],[55,"Narrator"],[68,"Your turn to share"]],
+    cues:[[60,"question"]],
+    question:"Who made a difference for you here? Say their name." },
+  { id:3, n:"3", title:"Collaboration", where:"Jakoba Mulderhuis", short:"Jakoba Mulderhuis", lab:"l",
+    lat:52.359681, lon:4.908113, src:"audio/track3.mp3",
+    voices:[[0,"Narrator"],[21,"Global Goals Jam hosts"],[26.4,"Annika · Global Goals Jam"],[39.8,"Frank Kresin · then dean"],[65.5,"Narrator"],[71,"Your turn to share"]],
+    cues:[[65.8,"question"]],
+    question:"What did we make possible together, and who did you make it possible with?" },
+  { id:4, n:"4", title:"What continues", where:"TTH, under the Clubhouse windows", short:"Clubhouse", lab:"l",
+    lat:52.359181, lon:4.907981, src:"audio/track4.mp3",
+    voices:[[0,"Narrator · look up"],[14.5,"Frank Kresin"],[22,"Mariana"],[27.4,"Narrator"],[38.4,"Mari · Team Mirai"],[45.4,"Dear future, I'm ready..."],[98.4,"Narrator"],[104,"Your Dear future"],[119.4,"Lanterns off"],[131,"Dear Future theme"]],
+    cues:[[98.4,"dearfuture"],[119.2,"lanterns"]],
+    question:"Dear future, I'm ready..." },
+  { id:5, n:"5", title:"Going up", where:"TTH entrance, to the first floor", short:"Going up",
+    lat:52.359181, lon:4.907981, src:"audio/track5.mp3", sameAsPrev:true,
+    voices:[[0,"Narrator · directions"],[22,"Lo-fi"],[29.8,"Roland"],[45.4,"Prasam"],[60,"A trainee"],[76,"Ariane"],[92,"An early trainee"],[105,"A trainee"],[140.8,"Lauren"],[150,"Lo-fi"]],
+    cues:[], question:null }
+];
+const PROMPTS = {
+  question: s => ({k:"Turn to the person next to you", big:s.question, hint:"The music keeps playing while you talk. The singing bowl means it's time to walk on.", cls:""}),
+  dearfuture: () => ({k:"Your turn", big:"Dear future, I'm ready...", hint:"Finish the sentence for the person next to you.", cls:""}),
+  lanterns: () => ({k:"Together, on three", big:"Lanterns up. Switch off.", hint:"One, two, three.", cls:"lanterns"})
+};
+const RADIUS = 28;           // metres
+const MAX_ACC = 60;          // ignore fixes worse than this
+
+/* ---------------- helpers ---------------- */
+const $ = id => document.getElementById(id);
+const store = {
+  get(k,d){ try{ const v = localStorage.getItem("wwc."+k); return v===null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ try{ localStorage.setItem("wwc."+k, JSON.stringify(v)); }catch(e){} }
+};
+const fmt = s => !isFinite(s) ? "0:00" : Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
+function dist(a,b,c,d){ const R=6371000, t=Math.PI/180, x=(d-b)*t*Math.cos((a+c)/2*t), y=(c-a)*t; return Math.sqrt(x*x+y*y)*R; }
+function toast(msg,ms=2600){ const t=document.createElement("div"); t.className="toast"; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),ms); }
+function buzz(p){ if($("optNotify").checked && navigator.vibrate) try{navigator.vibrate(p);}catch(e){} }
+
+// calibrated overrides
+const cal = store.get("cal", {});
+STOPS.forEach(s => { if(cal[s.id]){ s.lat=cal[s.id][0]; s.lon=cal[s.id][1]; } });
+STOPS.forEach((s,i)=>{ if(s.sameAsPrev){ s.lat=STOPS[i-1].lat; s.lon=STOPS[i-1].lon; } });
+
+/* ---------------- state ---------------- */
+let cur = store.get("cur", 0);           // step we're at or heading to
+let done = new Set(store.get("done", []));
+let arrived = new Set(store.get("arrived", []));
+let shownCues = new Set();
+let lastFix = null, geoOk = null, wakeLock = null, swReg = null;
+const aT=$("aTrack"), aL=$("aLoop"), aC=$("aChime");
+aL.volume = .35;
+
+function save(){ store.set("cur",cur); store.set("done",[...done]); store.set("arrived",[...arrived]); }
+
+/* ---------------- intro pattern ---------------- */
+$("pattern").textContent = Array(80).fill("Digital Society School").join(" ");
+
+/* ---------------- map ---------------- */
+const map = $("map");
+const W=360,H=290,PAD=36;
+function proj(){
+  const la=STOPS.map(s=>s.lat), lo=STOPS.map(s=>s.lon);
+  let minLa=Math.min(...la), maxLa=Math.max(...la), minLo=Math.min(...lo), maxLo=Math.max(...lo);
+  const k=Math.cos(52.359*Math.PI/180);
+  const spanX=(maxLo-minLo)*k, spanY=(maxLa-minLa);
+  const sc=Math.min((W-2*PAD)/spanX,(H-2*PAD)/spanY);
+  const ox=(W-spanX*sc)/2, oy=(H-spanY*sc)/2;
+  return (lat,lon)=>[ox+(lon-minLo)*k*sc, H-(oy+(lat-minLa)*sc)];
+}
+let P = proj();
+function drawMap(){
+  P = proj();
+  const ns="http://www.w3.org/2000/svg";
+  const pts = STOPS.filter(s=>!s.sameAsPrev).map(s=>P(s.lat,s.lon));
+  let html = `<defs><pattern id="g" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M18 0H0V18" fill="none" stroke="#2a1c20" stroke-width="1"/></pattern></defs>
+  <rect width="${W}" height="${H}" fill="url(#g)"/>
+  <text x="${W-10}" y="${H-12}" text-anchor="end" fill="#6d5a60" font-size="10" font-family="Open Sans,sans-serif" letter-spacing="1.5">N ↑</text>
+  <polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="#3a2a2f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline id="routeDone" fill="none" stroke="#d6144e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
+  STOPS.forEach((s,i)=>{ if(s.sameAsPrev) return;
+    const [x,y]=P(s.lat,s.lon);
+    const labelLeft = s.lab==="l";
+    html += `<g class="stop" data-i="${i}">
+      <circle cx="${x}" cy="${y}" r="${RADIUS*0.0}" />
+      <circle class="ring" cx="${x}" cy="${y}" r="15" fill="none" stroke="#c4e11f" stroke-width="2" opacity="0"/>
+      <circle class="m" cx="${x}" cy="${y}" r="11" fill="#2a1c20" stroke="#120b0d" stroke-width="3"/>
+      <text x="${x}" y="${y+4.5}" text-anchor="middle" fill="#f6eff1" font-size="13" font-weight="800" font-family="Barlow Condensed,sans-serif">${i===4?"4·5":s.n}</text>
+      <text x="${labelLeft?x-18:x+18}" y="${y+4}" text-anchor="${labelLeft?"end":"start"}" fill="#a8969b" font-size="11" font-weight="600" font-family="Open Sans,sans-serif">${s.short.toUpperCase()}</text>
+    </g>`;
+  });
+  html += `<g id="me" opacity="0"><circle id="meAcc" r="10" fill="rgba(196,225,31,.15)" stroke="rgba(196,225,31,.5)"/><circle r="6.5" fill="#c4e11f" stroke="#120b0d" stroke-width="2.5"/></g>`;
+  map.innerHTML = html;
+  paintMap();
+}
+function paintMap(){
+  const tgt = Math.min(cur,4);
+  map.querySelectorAll(".stop").forEach(g=>{
+    const i=+g.dataset.i, m=g.querySelector(".m"), r=g.querySelector(".ring");
+    const isDone = done.has(i) && !(i===4 && cur===5 && !done.has(5));
+    m.setAttribute("fill", i===tgt ? "#d6144e" : (isDone ? "#3a2a2f" : "#2a1c20"));
+    r.setAttribute("opacity", i===tgt ? "1" : "0");
+  });
+  const upto = STOPS.filter((s,i)=>!s.sameAsPrev && i<=tgt).map(s=>P(s.lat,s.lon).join(","));
+  const rd=$("routeDone"); if(rd) rd.setAttribute("points", upto.join(" "));
+  if(lastFix){
+    const [x,y]=P(lastFix.lat,lastFix.lon), me=$("me");
+    const inView = x>-20&&x<W+20&&y>-20&&y<H+20;
+    me.setAttribute("opacity", inView?"1":"0"); me.setAttribute("transform",`translate(${x},${y})`);
+    // accuracy ring in px (approx)
+    const a=P(lastFix.lat,lastFix.lon), b=P(lastFix.lat+lastFix.acc/111320,lastFix.lon);
+    $("meAcc").setAttribute("r", Math.min(60,Math.max(8,Math.abs(a[1]-b[1]))));
+    $("mapNote").textContent = inView ? "You are the lime dot" : "You're outside the map area";
+  }
+}
+
+/* ---------------- steps list ---------------- */
+function drawSteps(){
+  const ol=$("steps"); ol.innerHTML="";
+  STOPS.forEach((s,i)=>{
+    const li=document.createElement("li");
+    li.className = (i===cur?"active":"") + (done.has(i)?" done":"");
+    li.innerHTML = `<span class="n">${s.n}</span><span><div class="nm">${s.title}</div><div class="sb">${s.where}</div></span><button class="go" data-i="${i}">${done.has(i)?"Replay":(i===cur?"Current":"Go")}</button>`;
+    ol.appendChild(li);
+  });
+  ol.querySelectorAll(".go").forEach(b=>b.onclick=()=>{ goTo(+b.dataset.i, true); });
+}
+
+/* ---------------- current step UI ---------------- */
+function here(){ return arrived.has(cur); }
+function renderNow(){
+  const s=STOPS[cur];
+  $("stepPill").textContent = s.id===0 ? "Start" : (s.id===5 ? "After the walk" : "Stop "+s.n+" of 4");
+  $("stepTitle").textContent = s.title;
+  $("stepWhere").textContent = s.where;
+  const sp=$("statePill");
+  if(done.has(cur)){ sp.textContent="Done"; sp.className="pill"; }
+  else if(here()){ sp.textContent="You're here"; sp.className="pill here"; }
+  else { sp.textContent="Walk"; sp.className="pill walk"; }
+  if(s.question && s.id!==4){ $("qBox").hidden=false; $("qText").textContent=s.question; } else $("qBox").hidden=true;
+  $("nextBtn").textContent = cur>=5 ? "Finish" : (cur===4 ? "Going up" : "Next stop");
+  $("hereBtn").hidden = here() || done.has(cur);
+  $("actions").style.gridTemplateColumns = $("hereBtn").hidden ? "1fr" : "1fr 1fr";
+  updateStatus();
+  drawSteps(); paintMap();
+}
+function updateStatus(){
+  const s=STOPS[cur], st=$("status");
+  if(aT.paused && !here() && !done.has(cur)){ $("speaker").textContent = (!aL.paused ? "Walking · lo-fi" : "Up next: "+s.title); $("tCur").textContent="0:00"; }
+  if(done.has(cur)){ st.innerHTML = cur<5 ? "Track finished. Walk on to the next stop." : "Thank you for walking with us. See you upstairs."; return; }
+  if(here()){ st.innerHTML = aT.src && !aT.paused ? "Listening." : "<b>You're here.</b> Press play when the group is ready."; return; }
+  if(lastFix){
+    const d=dist(lastFix.lat,lastFix.lon,s.lat,s.lon);
+    st.innerHTML = `<b>${Math.round(d)} m</b> to ${s.short}${lastFix.acc>35?" · weak GPS signal":""}`;
+  } else if(geoOk===false){
+    st.innerHTML = "Location is off. Follow the guide and tap <b>I'm here</b> at each stop.";
+  } else st.innerHTML = "Finding your location...";
+}
+
+/* ---------------- audio ---------------- */
+function loadTrack(i){
+  const s=STOPS[i];
+  if(!aT.src.endsWith(s.src)){ aT.src=s.src; aT.load(); }
+  shownCues = new Set();
+}
+function setPlayIcon(){
+  const playing = !aT.paused;
+  $("playIco").innerHTML = playing ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+  $("play").setAttribute("aria-label", playing?"Pause":"Play");
+  $("player").classList.toggle("playing", playing);
+}
+async function playTrack(){
+  loadTrack(cur);
+  if(!arrived.has(cur)){ arrived.add(cur); save(); }
+  fadeLoop(0);
+  try{ await aT.play(); }catch(e){ toast("Tap play to start the track"); }
+  renderNow();
+}
+let fadeId=0;
+function fadeLoop(to){
+  if(!$("optMusic").checked) to=0;
+  if(to>0 && aL.paused){ aL.volume=0; aL.play().catch(()=>{}); }
+  if(to===0 && aL.paused) return;
+  const from=aL.volume, t0=performance.now(), dur=1200, id=++fadeId;
+  (function step(t){ if(id!==fadeId) return; const k=Math.min(1,(t-t0)/dur); aL.volume=Math.max(0,Math.min(1,from+(to-from)*k));
+    if(k<1) requestAnimationFrame(step); else if(to===0) aL.pause(); })(t0);
+}
+$("optMusic").addEventListener("change", e=>{ if(!e.target.checked) fadeLoop(0); else if(aT.paused && !arrived.has(cur)) fadeLoop(.35); });
+aT.addEventListener("play", ()=>{ setPlayIcon(); fadeLoop(0); updateStatus(); mediaSession(); });
+aT.addEventListener("pause", ()=>{ setPlayIcon(); updateStatus(); });
+aT.addEventListener("loadedmetadata", ()=>{ $("tDur").textContent=fmt(aT.duration); });
+aT.addEventListener("timeupdate", ()=>{
+  const p = aT.duration ? aT.currentTime/aT.duration*100 : 0;
+  if(!seeking){ $("seek").value=p; }
+  $("seek").style.setProperty("--p", p+"%");
+  $("tCur").textContent=fmt(aT.currentTime);
+  const s=STOPS[cur]; let who=s.voices[0][1];
+  for(const [t,n] of s.voices) if(aT.currentTime>=t) who=n;
+  if(!aT.paused || here()) $("speaker").textContent=who; else updateStatus();
+  for(const [t,type] of s.cues){
+    const key=cur+":"+t;
+    if(aT.currentTime>=t && aT.currentTime<t+8 && !shownCues.has(key)){ shownCues.add(key); showPrompt(PROMPTS[type](s)); }
+    if(aT.currentTime<t) shownCues.delete(key);
+  }
+});
+aT.addEventListener("ended", ()=>{
+  done.add(cur); save(); hidePrompt();
+  if(cur<4){ cur++; save(); loadTrack(cur); fadeLoop(.35); toast("Walk on to "+STOPS[cur].short); }
+  else if(cur===4){ cur=5; arrived.add(5); save(); toast("Follow the guides inside"); setTimeout(()=>{ if(cur===5 && aT.paused && !done.has(5)) playTrack(); }, 4000); }
+  setPlayIcon(); renderNow(); checkArrival();
+});
+let seeking=false;
+$("seek").addEventListener("input", e=>{ seeking=true; if(aT.duration){ aT.currentTime=e.target.value/100*aT.duration; } });
+$("seek").addEventListener("change", ()=>{ seeking=false; });
+$("play").onclick = ()=>{ if(!aT.src || !aT.src.endsWith(STOPS[cur].src)) return playTrack(); aT.paused ? playTrack() : aT.pause(); };
+$("back").onclick = ()=>{ aT.currentTime=Math.max(0,aT.currentTime-10); };
+$("fwd").onclick = ()=>{ if(aT.duration) aT.currentTime=Math.min(aT.duration-0.5,aT.currentTime+10); };
+$("restart").onclick = ()=>{ loadTrack(cur); aT.currentTime=0; shownCues=new Set(); playTrack(); };
+$("stopBtn").onclick = ()=>{ aT.pause(); aT.currentTime=0; fadeLoop(0); };
+$("hereBtn").onclick = ()=>{ arrive(cur, true); };
+$("nextBtn").onclick = ()=>{
+  aT.pause(); hidePrompt(); hideArrive();
+  if(cur>=5){ done.add(5); save(); renderNow(); toast("Thank you for walking with us"); return; }
+  done.add(cur); cur++; save();
+  if(cur===5){ arrived.add(5); save(); playTrack(); } else { loadTrack(cur); fadeLoop(.35); }
+  renderNow(); checkArrival();
+};
+function goTo(i, fromList){
+  aT.pause(); hidePrompt(); hideArrive();
+  cur=i; save(); loadTrack(i);
+  if(fromList && (done.has(i) || arrived.has(i))){ arrived.add(i); playTrack(); }
+  renderNow(); checkArrival();
+}
+function mediaSession(){
+  if(!("mediaSession" in navigator)) return;
+  try{
+    navigator.mediaSession.metadata = new MediaMetadata({ title: STOPS[cur].title, artist:"What We Carry · Digital Society School", artwork:[{src:"img/icon-512.png",sizes:"512x512",type:"image/png"}]});
+    navigator.mediaSession.setActionHandler("play", ()=>playTrack());
+    navigator.mediaSession.setActionHandler("pause", ()=>aT.pause());
+  }catch(e){}
+}
+
+/* ---------------- prompts ---------------- */
+function showPrompt(p){
+  $("prompt").className = p.cls; $("pKey").textContent=p.k; $("pBig").textContent=p.big; $("pHint").textContent=p.hint;
+  $("prompt").hidden=false; buzz([120,80,120]);
+}
+function hidePrompt(){ $("prompt").hidden=true; }
+$("pClose").onclick = hidePrompt;
+
+/* ---------------- arrival ---------------- */
+function hideArrive(){ $("arrive").hidden=true; }
+async function arrive(i, manual){
+  if(arrived.has(i) && !manual) return;
+  arrived.add(i); save();
+  fadeLoop(0);
+  if(!manual){
+    buzz([200,100,200,100,400]);
+    try{ aC.currentTime=0; await aC.play(); }catch(e){}
+    notify("You've arrived: "+STOPS[i].short, STOPS[i].title+". Tap to open the walk.");
+  }
+  renderNow();
+  if($("optAuto").checked){
+    setTimeout(()=>{ if(cur===i && aT.paused) playTrack().then(()=>{ if(aT.paused) showArrive(i); }); }, manual?150:2600);
+  } else showArrive(i);
+}
+function showArrive(i){
+  $("arrTitle").textContent = STOPS[i].short; $("arrive").hidden=false;
+}
+$("arrPlay").onclick = ()=>{ hideArrive(); playTrack(); };
+$("arrLater").onclick = hideArrive;
+async function notify(title, body){
+  if(!$("optNotify").checked) return;
+  if(!("Notification" in window) || Notification.permission!=="granted") return;
+  const opt={ body, tag:"wwc-stop", renotify:true, icon:"img/icon-192.png", badge:"img/icon-192.png", vibrate:[200,100,200] };
+  try{ if(swReg && swReg.showNotification) await swReg.showNotification(title,opt); else new Notification(title,opt); }catch(e){}
+}
+
+/* ---------------- GPS ---------------- */
+function setGps(state, txt){ const g=$("gps"); g.className="gps "+state; $("gpsTxt").textContent=txt; }
+function checkArrival(){
+  if(!lastFix || lastFix.acc>MAX_ACC) return;
+  const s=STOPS[cur];
+  if(done.has(cur) || arrived.has(cur)) return;
+  const d=dist(lastFix.lat,lastFix.lon,s.lat,s.lon);
+  if(d <= RADIUS + Math.min(lastFix.acc,20)*0.5) arrive(cur,false);
+}
+function startGeo(){
+  if(!("geolocation" in navigator)){ geoOk=false; setGps("off","No GPS"); updateStatus(); return; }
+  try{
+    navigator.geolocation.watchPosition(p=>{
+      geoOk=true; lastFix={lat:p.coords.latitude, lon:p.coords.longitude, acc:p.coords.accuracy};
+      setGps("on", Math.round(p.coords.accuracy)+" m"); paintMap(); updateStatus(); checkArrival(); calRender();
+    }, err=>{
+      geoOk=false; setGps("off", err.code===1?"GPS off":"No fix"); updateStatus();
+    }, {enableHighAccuracy:true, maximumAge:3000, timeout:20000});
+  }catch(e){ geoOk=false; setGps("off","No GPS"); updateStatus(); }
+}
+
+/* ---------------- start ---------------- */
+async function unlock(el){ try{ const v=el.volume; el.muted=true; await el.play(); el.pause(); el.currentTime=0; el.muted=false; el.volume=v; }catch(e){ el.muted=false; } }
+async function wake(){ try{ if("wakeLock" in navigator){ wakeLock = await navigator.wakeLock.request("screen"); } }catch(e){} }
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible" && !$("tour").hidden) wake(); });
+
+$("startBtn").onclick = async ()=>{
+  $("intro").hidden=true; $("tour").hidden=false; store.set("started",true);
+  loadTrack(cur);
+  await Promise.all([unlock(aT),unlock(aC),unlock(aL)]);
+  wake(); startGeo();
+  if("Notification" in window && Notification.permission==="default"){ try{ await Notification.requestPermission(); }catch(e){} }
+  drawMap(); renderNow();
+  if(cur===0 && !arrived.has(0)){ arrive(0,true); }
+  prefetch();
+};
+function prefetch(){ STOPS.forEach(s=>{ try{ fetch(s.src).catch(()=>{}); }catch(e){} }); }
+
+if("serviceWorker" in navigator){ try{ navigator.serviceWorker.register("sw.js").then(r=>swReg=r).catch(()=>{}); }catch(e){} }
+
+/* ---------------- calibration (?calibrate or #calibrate) ---------------- */
+const calMode = /calibrate/.test(location.search+location.hash);
+function calRender(){
+  if(!calMode) return;
+  $("calOut").value = STOPS.filter(s=>!s.sameAsPrev).map(s=>`${s.n} ${s.short}: ${s.lat.toFixed(6)}, ${s.lon.toFixed(6)}${cal[s.id]?" (set)":""}`).join("\n")
+    + (lastFix?`\n\nYou: ${lastFix.lat.toFixed(6)}, ${lastFix.lon.toFixed(6)} ±${Math.round(lastFix.acc)} m`:"");
+}
+if(calMode){
+  $("cal").hidden=false;
+  $("calSet").onclick=()=>{
+    if(!lastFix){ toast("No GPS fix yet"); return; }
+    const s=STOPS[Math.min(cur,4)]; cal[s.id]=[lastFix.lat,lastFix.lon]; store.set("cal",cal);
+    s.lat=lastFix.lat; s.lon=lastFix.lon; if(s.id===4){ STOPS[5].lat=s.lat; STOPS[5].lon=s.lon; }
+    drawMap(); calRender(); toast(s.short+" set (±"+Math.round(lastFix.acc)+" m)");
+  };
+  $("calCopy").onclick=()=>{ const t=$("calOut"); navigator.clipboard?.writeText(t.value).then(()=>toast("Copied")).catch(()=>{t.select();}); };
+}
+
+/* ---------------- boot ---------------- */
+drawMap(); renderNow(); calRender();
+if(store.get("started",false)){ $("startBtn").querySelector("span").textContent = cur>0 ? "Continue the walk" : "Start the walk"; }
+})();
+</script>
+
+</body></html>
