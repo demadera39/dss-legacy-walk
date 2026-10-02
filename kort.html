@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#120b0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="img/icon-192.png"><link rel="apple-touch-icon" href="img/icon-192.png">
+<title>DSS in Five Minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800;900&family=Open+Sans:wght@400;600;700&display=swap">
+<style>
+/* Seated listen, eyes closed: a year counter as the time machine, DSS red and lime on near-black */
+:root{
+  --ink:#120b0d; --ink-2:#1d1316; --ink-3:#2a1c20; --line:#3a2a2f;
+  --paper:#f6eff1; --muted:#a8969b; --red:#d6144e; --red-deep:#a80f3c; --lime:#c4e11f;
+  --display:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  --body:"Open Sans",Helvetica,Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+
+#intro{min-height:100%;background:var(--red);color:#fff;position:relative;overflow:hidden;display:flex}
+.pattern{position:absolute;inset:-20%;opacity:.09;pointer-events:none;transform:rotate(-12deg);font:900 34px/1 var(--display);text-transform:uppercase;word-spacing:.4em;overflow:hidden}
+.in{position:relative;flex:1;display:flex;flex-direction:column;gap:20px;padding:max(28px,env(safe-area-inset-top)) 22px max(28px,env(safe-area-inset-bottom));max-width:560px;margin:0 auto;width:100%}
+.mark{width:64px}
+h1.t{font:900 clamp(60px,20vw,112px)/.84 var(--display);text-transform:uppercase;margin:6px 0 0}
+h1.t span{display:block}.lime{color:var(--lime)}
+.sub{font-size:16px;max-width:32ch;margin:0}
+.facts{display:flex;gap:8px;flex-wrap:wrap}
+.facts span{font:800 14px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;border:2px solid rgba(255,255,255,.7);padding:7px 10px;border-radius:999px}
+.go{margin-top:auto;background:var(--lime);color:var(--ink);font:900 30px/1 var(--display);text-transform:uppercase;padding:20px 22px;border-radius:999px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 0 rgba(0,0,0,.18)}
+.go:active{transform:translateY(3px);box-shadow:0 7px 0 rgba(0,0,0,.18)}
+.foot{font-size:12px;opacity:.85}
+.foot a{color:#fff}
+
+#listen{min-height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));gap:18px;transition:opacity .8s}
+.bar{display:flex;align-items:center;gap:12px}
+.bar img{width:30px}.bar .n{font:800 22px/1 var(--display);text-transform:uppercase;flex:1}
+.eyes{font:700 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.machine{flex:1;display:flex;flex-direction:column;justify-content:center;gap:6px;min-height:46vh}
+.kick{font:700 12px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+.year{font:900 clamp(110px,40vw,210px)/.8 var(--display);letter-spacing:-.02em;color:var(--red);font-variant-numeric:tabular-nums;transition:color .6s}
+.year.long{font-size:clamp(64px,21vw,120px);line-height:.86}
+.chap{font:900 clamp(34px,10vw,52px)/.92 var(--display);text-transform:uppercase;text-wrap:balance;margin:6px 0 0}
+.who{color:var(--muted);font-size:15px;min-height:1.5em}
+.line{position:relative;height:34px}
+.line .track{position:absolute;left:0;right:0;top:15px;height:4px;border-radius:4px;background:var(--line)}
+.line .fill{position:absolute;left:0;top:15px;height:4px;border-radius:4px;background:var(--red);width:0}
+.line .tick{position:absolute;top:9px;width:2px;height:16px;background:var(--ink-3)}
+.line .tick.y{background:var(--muted)}
+.line input{position:absolute;inset:0;width:100%;opacity:0;margin:0;cursor:pointer}
+.times{display:flex;justify-content:space-between;font:600 12px/1 var(--body);font-variant-numeric:tabular-nums;color:var(--muted);margin-top:-8px}
+.ctrls{display:flex;align-items:center;justify-content:center;gap:18px}
+.ib{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--ink-3)}
+.ib svg{width:22px;height:22px}
+.play{width:84px;height:84px;border-radius:50%;background:var(--red);display:grid;place-items:center;box-shadow:0 6px 0 var(--red-deep)}
+.play svg{width:34px;height:34px}
+.chapters{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.chapters li button{width:100%;display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:baseline;text-align:left;padding:11px 0;border-bottom:1px solid var(--line)}
+.chapters .cy{font:900 22px/1 var(--display);color:var(--muted)}
+.chapters .ct{font:800 18px/1.05 var(--display);text-transform:uppercase}
+.chapters .cs{font:600 12px/1 var(--body);color:var(--muted);font-variant-numeric:tabular-nums}
+.chapters li.now .cy{color:var(--red)}
+.chapters li.past .ct{color:var(--muted)}
+.note{font-size:13px;color:var(--muted);margin:0}
+
+/* eyes closed: everything dims except the year */
+body.dim #listen > :not(.machine){opacity:.12}
+body.dim .chap,body.dim .who,body.dim .kick{opacity:.25}
+body.dim .year{color:#5a1428}
+#listen > *{transition:opacity .8s}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head><body>
+
+<section id="intro">
+  <div class="pattern" aria-hidden="true" id="pattern"></div>
+  <div class="in">
+    <img class="mark" src="img/dss-mark.png" alt="Digital Society School">
+    <h1 class="t"><span>DSS in</span><span class="lime">five</span><span>minutes</span></h1>
+    <p class="sub">Close your eyes and travel back in time: from two trial semesters in Studio HvA to the last day of the Digital Society School, in the voices of the people who were there.</p>
+    <div class="facts"><span>4:23 min</span><span>Eyes closed</span><span>Headphones or room speakers</span></div>
+    <button class="go" id="go"><span>Start listening</span><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    <div class="foot">Digital Society School · HvA · 10 December · <a href="./">The full lantern walk</a></div>
+  </div>
+</section>
+
+<section id="listen" hidden>
+  <div class="bar"><img src="img/dss-mark.png" alt=""><div class="n">DSS in five minutes</div><button class="eyes" id="eyesBtn">Screen dim: on</button></div>
+  <div class="machine" id="machine">
+    <div class="kick" id="kick">Close your eyes</div>
+    <div class="year" id="year">2017</div>
+    <h2 class="chap" id="chap">Back in time</h2>
+    <div class="who" id="who"></div>
+  </div>
+  <div>
+    <div class="line" id="line"><div class="track"></div><div class="fill" id="fill"></div><input type="range" id="seek" min="0" max="1000" value="0" aria-label="Position"></div>
+    <div class="times"><span id="tc">0:00</span><span id="td">4:23</span></div>
+  </div>
+  <div class="ctrls">
+    <button class="ib" id="back" aria-label="Back 15 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/></svg></button>
+    <button class="play" id="play" aria-label="Pause"><svg viewBox="0 0 24 24" fill="#fff" id="pi"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+    <button class="ib" id="restart" aria-label="Start again"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+  </div>
+  <ol class="chapters" id="chapters"></ol>
+  <p class="note">Playing it for a room? Connect the phone to the speakers, press start and dim the lights.</p>
+</section>
+
+<audio id="a" preload="auto" playsinline src="audio/dss-in-five.mp3"></audio>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const CH=[
+  {t:0,   y:"2017", k:"Close your eyes", c:"Back in time", w:"Marco's AI twin"},
+  {t:8,   y:"2017", k:"Studio HvA", c:"Two trial semesters", w:"Marco's AI twin"},
+  {t:16,  y:"2018", k:"September", c:"The doors open", w:"Marco's AI twin"},
+  {t:23,  y:"2018", k:"Social Good Summit", c:"Technology in society", w:"Annika"},
+  {t:39,  y:"2018", k:"Twenty weeks", c:"Talent from all over the world", w:"Tom"},
+  {t:50,  y:"2018–23", k:"Learning by doing", c:"Real partners, real problems", w:"Trainees at the Showcase"},
+  {t:76,  y:"2020", k:"March", c:"The doors close", w:"Marco's AI twin"},
+  {t:84,  y:"2020", k:"Kitchen tables", c:"Hybrid is here to stay", w:"Mari Luz"},
+  {t:97,  y:"2018–23", k:"Along the way", c:"More than a program", w:"Trainees"},
+  {t:123, y:"Worldwide", k:"Global Goals Jam", c:"Every continent", w:"Annika · Jurrien"},
+  {t:161, y:"2020", k:"The HvA", c:"What it showed us", w:"Frank Kresin, then dean"},
+  {t:191, y:"2026", k:"January", c:"The school closes", w:"Marco's AI twin"},
+  {t:205, y:"2026", k:"Dear future", c:"I'm ready", w:"Trainees and podcast guests"},
+  {t:227, y:"2026", k:"Not the end", c:"A beginning", w:"Frank Kresin"},
+  {t:235, y:"Now", k:"Open your eyes", c:"Thank you", w:"Dear Future theme"}
+];
+const a=$("a"); let dimOn=true, idx=-1, dimTimer=null;
+$("pattern").textContent=Array(80).fill("Digital Society School").join(" ");
+const fmt=s=>!isFinite(s)?"0:00":Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
+
+// chapter list + ticks
+const ol=$("chapters");
+CH.forEach((c,i)=>{ const li=document.createElement("li");
+  li.innerHTML=`<button data-i="${i}"><span class="cy">${c.y.length>4?c.y.replace("Worldwide","World"):c.y}</span><span class="ct">${c.c}</span><span class="cs">${fmt(c.t)}</span></button>`; ol.appendChild(li); });
+ol.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; a.currentTime=CH[+b.dataset.i].t+0.05; a.play().catch(()=>{}); wake(); });
+function ticks(d){ const line=$("line"); line.querySelectorAll(".tick").forEach(t=>t.remove());
+  let prevY=null; CH.forEach(c=>{ const t=document.createElement("div"); t.className="tick"+(c.y!==prevY?" y":""); prevY=c.y; t.style.left=(c.t/d*100)+"%"; line.insertBefore(t,$("seek")); }); }
+
+function setChapter(i){
+  if(i===idx) return; idx=i; const c=CH[i];
+  $("year").textContent=c.y; $("year").classList.toggle("long", c.y.length>4); $("chap").textContent=c.c; $("kick").textContent=c.k; $("who").textContent=c.w;
+  [...ol.children].forEach((li,j)=>{ li.className = j===i?"now":(j<i?"past":""); });
+  if(c.y==="Now"){ setDim(false); }
+}
+a.addEventListener("loadedmetadata",()=>{ $("td").textContent=fmt(a.duration); ticks(a.duration); });
+a.addEventListener("timeupdate",()=>{
+  const p=a.duration?a.currentTime/a.duration:0;
+  $("fill").style.width=(p*100)+"%"; if(!seeking) $("seek").value=p*1000; $("tc").textContent=fmt(a.currentTime);
+  let i=0; CH.forEach((c,j)=>{ if(a.currentTime>=c.t) i=j; }); setChapter(i);
+});
+a.addEventListener("play",()=>{ $("pi").innerHTML='<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>'; $("play").setAttribute("aria-label","Pause"); scheduleDim(); });
+a.addEventListener("pause",()=>{ $("pi").innerHTML='<path d="M8 5v14l11-7z"/>'; $("play").setAttribute("aria-label","Play"); setDim(false); });
+a.addEventListener("ended",()=>{ setDim(false); });
+let seeking=false;
+$("seek").addEventListener("input",e=>{ seeking=true; if(a.duration) a.currentTime=e.target.value/1000*a.duration; wake(); });
+$("seek").addEventListener("change",()=>{ seeking=false; });
+$("play").onclick=()=>{ a.paused?a.play().catch(()=>{}):a.pause(); };
+$("back").onclick=()=>{ a.currentTime=Math.max(0,a.currentTime-15); wake(); };
+$("restart").onclick=()=>{ a.currentTime=0; a.play().catch(()=>{}); wake(); };
+
+// dimming: after 6 s of no touch while playing, before "open your eyes"
+function setDim(v){ document.body.classList.toggle("dim", v); }
+function scheduleDim(){ clearTimeout(dimTimer); if(!dimOn || a.paused || (CH[idx]&&CH[idx].y==="Now")) return; dimTimer=setTimeout(()=>setDim(true),6000); }
+function wake(){ setDim(false); scheduleDim(); }
+["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,()=>{ if(!$("listen").hidden) wake(); }));
+$("eyesBtn").onclick=()=>{ dimOn=!dimOn; $("eyesBtn").textContent="Screen dim: "+(dimOn?"on":"off"); wake(); };
+
+let lock=null; async function keepAwake(){ try{ if("wakeLock" in navigator) lock=await navigator.wakeLock.request("screen"); }catch(e){} }
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible" && !$("listen").hidden) keepAwake(); });
+
+$("go").onclick=async()=>{
+  $("intro").hidden=true; $("listen").hidden=false; setChapter(0); keepAwake();
+  try{ await a.play(); }catch(e){}
+  if("mediaSession" in navigator){ try{ navigator.mediaSession.metadata=new MediaMetadata({title:"DSS in five minutes",artist:"Digital Society School",artwork:[{src:"img/icon-512.png",sizes:"512x512",type:"image/png"}]}); }catch(e){} }
+};
+})();
+</script>
+</body></html>
