@@ -230,21 +230,21 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radiu
 (() => {
 /* ---------------- content ---------------- */
 const STOPS = [
-  { id:0, n:"0", title:"Welcome", where:"Kohnstammhuis exit, Wibautstraat", short:"Kohnstammhuis",
-    lat:52.359048, lon:4.908771, src:"audio/track0.mp3",
+  { id:0, n:"0", title:"Welcome", where:"Jakoba Mulderhuis exit, after the Gerard van Haarlemzaal", short:"Jakoba Mulderhuis", lab:"l",
+    lat:52.359681, lon:4.908113, src:"audio/track0.mp3",
     voices:[[0,"Marco's AI twin"]], cues:[], question:null },
   { id:1, n:"1", title:"Beginnings", where:"Studio HvA, Eerste Boerhaavestraat 33E", short:"Studio HvA",
     lat:52.358681, lon:4.907859, src:"audio/track1.mp3",
     voices:[[0,"Narrator: where it started"],[22.5,"Anneke · Social Good Summit 2018"],[38.5,"Tom · our trainees"],[49.5,"Narrator"],[64,"Your turn to share"]],
     cues:[[55.5,"question"]],
     question:"What first brought you here, and who opened the door?" },
-  { id:2, n:"2", title:"Learning and community", where:"Rhijnspoorplein", short:"Rhijnspoorplein",
-    lat:52.359979, lon:4.908857, src:"audio/track2.mp3",
+  { id:2, n:"2", title:"Learning and community", where:"Kohnstammhuis forecourt, Wibautstraat", short:"Kohnstammhuis",
+    lat:52.359048, lon:4.908771, src:"audio/track2.mp3",
     voices:[[0,"Narrator"],[11,"A trainee · Showcase"],[21,"A trainee · Showcase"],[29,"Narrator"],[35,"A trainee · 2018-19 cohort"],[43,"A 2022 team"],[55,"Narrator"],[68,"Your turn to share"]],
     cues:[[60,"question"]],
     question:"Who made a difference for you here? Say their name." },
-  { id:3, n:"3", title:"Collaboration", where:"Jakoba Mulderhuis", short:"Jakoba Mulderhuis", lab:"l",
-    lat:52.359681, lon:4.908113, src:"audio/track3.mp3",
+  { id:3, n:"3", title:"Collaboration", where:"Rhijnspoorplein", short:"Rhijnspoorplein",
+    lat:52.359979, lon:4.908857, src:"audio/track3.mp3",
     voices:[[0,"Narrator"],[21,"Global Goals Jam hosts"],[26.4,"Anneke · Global Goals Jam"],[39.8,"Frank Kresin · then dean"],[65.5,"Narrator"],[71,"Your turn to share"]],
     cues:[[65.8,"question"]],
     question:"What did we make possible together, and who did you make it possible with?" },
@@ -269,8 +269,8 @@ const MAX_ACC = 60;          // ignore fixes worse than this
 /* ---------------- helpers ---------------- */
 const $ = id => document.getElementById(id);
 const store = {
-  get(k,d){ try{ const v = localStorage.getItem("wwc."+k); return v===null?d:JSON.parse(v);}catch(e){return d;} },
-  set(k,v){ try{ localStorage.setItem("wwc."+k, JSON.stringify(v)); }catch(e){} }
+  get(k,d){ try{ const v = localStorage.getItem("wwc2."+k); return v===null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ try{ localStorage.setItem("wwc2."+k, JSON.stringify(v)); }catch(e){} }
 };
 const fmt = s => !isFinite(s) ? "0:00" : Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
 function dist(a,b,c,d){ const R=6371000, t=Math.PI/180, x=(d-b)*t*Math.cos((a+c)/2*t), y=(c-a)*t; return Math.sqrt(x*x+y*y)*R; }
