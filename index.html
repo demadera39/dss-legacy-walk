@@ -45,6 +45,12 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--lime);outline-o
 .btn-start{background:var(--lime);color:var(--ink);font:900 30px/1 var(--display);text-transform:uppercase;padding:20px 22px;border-radius:999px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 0 rgba(0,0,0,.18)}
 .btn-start:active{transform:translateY(3px);box-shadow:0 7px 0 rgba(0,0,0,.18)}
 .intro-foot{font-size:12px;opacity:.85}
+.btn-guide{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.85);font:800 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;padding:14px 22px;border-radius:999px;text-align:center}
+.guide{margin:4px 0 0;padding:14px 16px;border-radius:16px;background:var(--ink-2);border:2px solid var(--lime);display:grid;gap:6px}
+.guide .gl{font:700 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--lime)}
+.guide p{margin:0;font-size:15px}
+.modepill{font:800 12px/1 var(--display);text-transform:uppercase;letter-spacing:.08em;background:var(--lime);color:var(--ink);padding:5px 8px;border-radius:999px}
+.linkbtn{font-size:14px;color:var(--muted);text-decoration:underline;padding:12px 0;text-align:left}
 
 /* ---------- tour ---------- */
 #tour{min-height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto}
@@ -146,14 +152,15 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radiu
   <div class="intro-inner">
     <img class="intro-mark" src="img/dss-mark.png" alt="Digital Society School">
     <h1 class="intro-title"><span>What</span><span>we</span><span class="lime">carry</span></h1>
-    <p class="intro-sub">A 15-minute lantern walk around the Amstelcampus, told in our own voices. Four stops, one last look at the Clubhouse.</p>
+    <p class="intro-sub">A 15-minute lantern walk around the Amstelcampus, told in our own voices. Four stops, one last look at the Clubhouse. Your guides play it on speakers as we walk.</p>
     <ul class="tips">
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="2" y="14" width="5" height="7" rx="2"/><rect x="17" y="14" width="5" height="7" rx="2"/></svg><span>Use one earbud, so you still hear the group and the guide.</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Allow location: the next track starts when you reach a stop.</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><span>Keep this screen open. Tap <b>I'm here</b> if a stop doesn't trigger.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="2" y="14" width="5" height="7" rx="2"/><rect x="17" y="14" width="5" height="7" rx="2"/></svg><span>No earbuds needed. Hard of hearing, or walking at the back? Listen along on one earbud.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span>The map shows where you are and where the next stop is.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><span>Listening along? Tap play when the guide starts the speaker.</span></li>
     </ul>
     <div class="intro-actions">
-      <button class="btn-start" id="startBtn"><span>Start the walk</span><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      <button class="btn-start" id="startBtn"><span>Listen along</span><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      <button class="btn-guide" id="guideBtn">I'm a guide</button>
       <div class="intro-foot">Digital Society School · Living Legacy Walk · 20 January · <a href="kort" style="color:#fff">Five-minute listen</a></div>
     </div>
   </div>
@@ -162,7 +169,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radiu
 <section id="tour" hidden>
   <header class="top">
     <img src="img/dss-mark.png" alt="">
-    <div class="t">What we carry</div>
+    <div class="t">What we carry</div><span class="modepill" id="modePill" hidden>Guide</span>
     <div class="gps" id="gps"><span class="dot"></span><span id="gpsTxt">GPS</span></div>
   </header>
 
@@ -173,6 +180,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radiu
     <h1 id="stepTitle">Beginnings</h1>
     <p class="where" id="stepWhere">Studio HvA entrance</p>
     <p class="status" id="status"></p>
+    <div class="guide" id="guideBox" hidden><div class="gl">For the guide</div><p id="guideText"></p></div>
     <div class="player" id="player">
       <div class="speaking" id="speaking"><span class="bars"><i></i><i></i><i></i><i></i></span><span id="speaker">Ready</span></div>
       <div class="prog"><span id="tCur">0:00</span><input type="range" id="seek" min="0" max="100" step="0.1" value="0" aria-label="Position in track"><span id="tDur">0:00</span></div>
@@ -195,9 +203,10 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radiu
   <ol class="steps" id="steps"></ol>
 
   <div class="settings">
-    <label class="tog" for="optAuto"><span>Start the track automatically on arrival</span><input type="checkbox" id="optAuto" checked></label>
+    <label class="tog" for="optAuto"><span>Start the track automatically on arrival</span><input type="checkbox" id="optAuto"></label>
     <label class="tog" for="optMusic"><span>Lo-fi music while walking</span><input type="checkbox" id="optMusic" checked></label>
     <label class="tog" for="optNotify"><span>Alerts and vibration at each stop</span><input type="checkbox" id="optNotify" checked></label>
+    <button class="linkbtn" id="modeSwitch">Switch to guide mode</button>
   </div>
 
   <div id="cal" hidden>
@@ -288,6 +297,17 @@ let done = new Set(store.get("done", []));
 let arrived = new Set(store.get("arrived", []));
 let shownCues = new Set();
 let lastFix = null, geoOk = null, wakeLock = null, swReg = null;
+let mode = /guide/.test(location.search+location.hash) ? "guide" : store.get("mode","guest");
+const isGuide = () => mode==="guide";
+function applyMode(){
+  store.set("mode",mode);
+  $("modePill").hidden = !isGuide();
+  $("guideBox").hidden = !isGuide();
+  $("optMusic").checked = isGuide();
+  $("modeSwitch").textContent = isGuide() ? "Switch to listener mode" : "Switch to guide mode";
+  $("hereBtn").textContent = isGuide() ? "We're here" : "I'm here";
+  $("arrPlay").textContent = isGuide() ? "Start track" : "Play along";
+}
 const aT=$("aTrack"), aL=$("aLoop"), aC=$("aChime");
 aL.volume = .35;
 
@@ -384,16 +404,27 @@ function renderNow(){
   updateStatus();
   drawSteps(); paintMap();
 }
+function guideNote(){
+  const s=STOPS[cur], nxt=STOPS[cur+1];
+  if(cur===0 && !done.has(0)) return aT.paused ? "Hand out the lanterns and give the live welcome, in the Gerard van Haarlemzaal or at the exit. Then press play for Track 0." : "When Track 0 ends, lead the group outside to Studio HvA.";
+  if(done.has(cur)){ return cur<5 ? "Lead the group to "+(nxt?nxt.short:"the next stop")+". Lo-fi plays on the speaker while you walk." : "Thank everyone. Dinner guests go up, the others hand in their lanterns."; }
+  if(!here()){ const d=lastFix?Math.round(dist(lastFix.lat,lastFix.lon,s.lat,s.lon))+" m, ":""; return "Walk to "+s.short+" ("+d+"music on the speaker). Stop where everyone can stand together, facing you."; }
+  if(cur===4) return aT.paused ? "Wait until the back of the group is in, then start. At \u201cLanterns up\u201d make sure everyone can see you." : "After the Dear Future theme, Track 5 starts by itself: open the door and lead the dinner guests up.";
+  if(cur===5) return "Lead the dinner guests to the first floor. Lift for anyone who needs it. Others: lanterns in the crate by the door.";
+  return aT.paused ? "Wait until the back of the group has arrived, then press play." : "Let people talk during the music. When the singing bowl sounds, walk on to "+(nxt?nxt.short:"the next stop")+".";
+}
 function updateStatus(){
   const s=STOPS[cur], st=$("status");
+  if(isGuide()) $("guideText").textContent = guideNote();
+  if(aT.paused && here() && !done.has(cur) && aT.currentTime<0.5) $("speaker").textContent = "Ready: "+s.title;
   if(aT.paused && !here() && !done.has(cur)){ $("speaker").textContent = (!aL.paused ? "Walking · lo-fi" : "Up next: "+s.title); $("tCur").textContent="0:00"; }
   if(done.has(cur)){ st.innerHTML = cur<5 ? "Track finished. Walk on to the next stop." : "Thank you for walking with us. See you upstairs."; return; }
-  if(here()){ st.innerHTML = aT.src && !aT.paused ? "Listening." : "<b>You're here.</b> Press play when the group is ready."; return; }
+  if(here()){ st.innerHTML = aT.src && !aT.paused ? "Listening." : (isGuide() ? "<b>You're here.</b> Press play when the group is together." : "<b>You're here.</b> Tap play when the guide starts the speaker."); return; }
   if(lastFix){
     const d=dist(lastFix.lat,lastFix.lon,s.lat,s.lon);
     st.innerHTML = `<b>${Math.round(d)} m</b> to ${s.short}${lastFix.acc>35?" · weak GPS signal":""}`;
   } else if(geoOk===false){
-    st.innerHTML = "Location is off. Follow the guide and tap <b>I'm here</b> at each stop.";
+    st.innerHTML = isGuide() ? "Location is off. Tap <b>We're here</b> at each stop." : "Location is off. Follow the guide and tap <b>I'm here</b> at each stop.";
   } else st.innerHTML = "Finding your location...";
 }
 
@@ -401,6 +432,7 @@ function updateStatus(){
 function loadTrack(i){
   const s=STOPS[i];
   if(!aT.src.endsWith(s.src)){ aT.src=s.src; aT.load(); }
+  if(aT.paused && aT.currentTime<0.5){ $("seek").value=0; $("seek").style.setProperty("--p","0%"); $("tCur").textContent="0:00"; }
   shownCues = new Set();
 }
 function setPlayIcon(){
@@ -446,7 +478,7 @@ aT.addEventListener("timeupdate", ()=>{
 aT.addEventListener("ended", ()=>{
   done.add(cur); save(); hidePrompt();
   if(cur<4){ cur++; save(); loadTrack(cur); fadeLoop(.35); toast("Walk on to "+STOPS[cur].short); }
-  else if(cur===4){ cur=5; arrived.add(5); save(); toast("Follow the guides inside"); setTimeout(()=>{ if(cur===5 && aT.paused && !done.has(5)) playTrack(); }, 4000); }
+  else if(cur===4){ cur=5; arrived.add(5); save(); toast("Follow the guides inside"); if(isGuide() || $("optAuto").checked) setTimeout(()=>{ if(cur===5 && aT.paused && !done.has(5)) playTrack(); }, 4000); }
   setPlayIcon(); renderNow(); checkArrival();
 });
 let seeking=false;
@@ -462,7 +494,7 @@ $("nextBtn").onclick = ()=>{
   aT.pause(); hidePrompt(); hideArrive();
   if(cur>=5){ done.add(5); save(); renderNow(); toast("Thank you for walking with us"); return; }
   done.add(cur); cur++; save();
-  if(cur===5){ arrived.add(5); save(); playTrack(); } else { loadTrack(cur); fadeLoop(.35); }
+  if(cur===5){ arrived.add(5); save(); if(isGuide()) playTrack(); else loadTrack(5); } else { loadTrack(cur); fadeLoop(.35); }
   renderNow(); checkArrival();
 };
 function goTo(i, fromList){
@@ -505,6 +537,7 @@ async function arrive(i, manual){
   } else showArrive(i);
 }
 function showArrive(i){
+  $("arrKicker").textContent = isGuide() ? (i===0 ? "Ready when the welcome is done" : "Arrived. Wait for the group") : "You've arrived";
   $("arrTitle").textContent = STOPS[i].short; $("arrive").hidden=false;
 }
 $("arrPlay").onclick = ()=>{ hideArrive(); playTrack(); };
@@ -542,16 +575,20 @@ async function unlock(el){ try{ const v=el.volume; el.muted=true; await el.play(
 async function wake(){ try{ if("wakeLock" in navigator){ wakeLock = await navigator.wakeLock.request("screen"); } }catch(e){} }
 document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible" && !$("tour").hidden) wake(); });
 
-$("startBtn").onclick = async ()=>{
+async function begin(m){
+  mode=m; applyMode();
   $("intro").hidden=true; $("tour").hidden=false; store.set("started",true);
   loadTrack(cur);
   await Promise.all([unlock(aT),unlock(aC),unlock(aL)]);
   wake(); startGeo();
-  if("Notification" in window && Notification.permission==="default"){ try{ await Notification.requestPermission(); }catch(e){} }
+  if(isGuide() && "Notification" in window && Notification.permission==="default"){ try{ await Notification.requestPermission(); }catch(e){} }
   drawMap(); renderNow();
   if(cur===0 && !arrived.has(0)){ arrive(0,true); }
   prefetch();
-};
+}
+$("startBtn").onclick = ()=>begin("guest");
+$("guideBtn").onclick = ()=>begin("guide");
+$("modeSwitch").onclick = ()=>{ mode = isGuide() ? "guest" : "guide"; applyMode(); if(!$("optMusic").checked) fadeLoop(0); renderNow(); toast(isGuide() ? "Guide mode" : "Listener mode"); };
 function prefetch(){ STOPS.forEach(s=>{ try{ fetch(s.src).catch(()=>{}); }catch(e){} }); }
 
 if("serviceWorker" in navigator){ try{ navigator.serviceWorker.register("sw.js").then(r=>swReg=r).catch(()=>{}); }catch(e){} }
@@ -575,8 +612,8 @@ if(calMode){
 }
 
 /* ---------------- boot ---------------- */
-drawMap(); renderNow(); calRender();
-if(store.get("started",false)){ $("startBtn").querySelector("span").textContent = cur>0 ? "Continue the walk" : "Start the walk"; }
+applyMode(); drawMap(); renderNow(); calRender();
+if(store.get("started",false) && cur>0){ (isGuide()?$("guideBtn"):$("startBtn").querySelector("span")).textContent = isGuide() ? "Continue as guide" : "Continue listening"; }
 })();
 </script>
 
