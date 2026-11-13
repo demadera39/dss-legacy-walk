@@ -152,14 +152,14 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radiu
   <div class="intro-inner">
     <img class="intro-mark" src="img/dss-mark.png" alt="Digital Society School">
     <h1 class="intro-title"><span>What</span><span>we</span><span class="lime">carry</span></h1>
-    <p class="intro-sub">A 15-minute lantern walk around the Amstelcampus, told in our own voices. Four stops, one last look at the Clubhouse. Your guides play it on speakers as we walk.</p>
+    <p class="intro-sub">A 15-minute lantern walk around the Amstelcampus, told in our own voices. Four stops, one last look at the Clubhouse. Bring your earbuds: you listen on your own phone, and we walk in silence.</p>
     <ul class="tips">
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="2" y="14" width="5" height="7" rx="2"/><rect x="17" y="14" width="5" height="7" rx="2"/></svg><span>No earbuds needed. Hard of hearing, or walking at the back? Listen along on one earbud.</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span>The map shows where you are and where the next stop is.</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><span>Listening along? Tap play when the guide starts the speaker.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="2" y="14" width="5" height="7" rx="2"/><rect x="17" y="14" width="5" height="7" rx="2"/></svg><span>Bring earbuds. Keep the volume low enough to hear the guide.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span>The next track starts when you reach a stop. No signal? Tap <b>I'm here</b>.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><span>Walk in silence. When it is time to talk, the audio pauses and tells you so.</span></li>
     </ul>
     <div class="intro-actions">
-      <button class="btn-start" id="startBtn"><span>Listen along</span><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      <button class="btn-start" id="startBtn"><span>Start the walk</span><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
       <button class="btn-guide" id="guideBtn">I'm a guide</button>
       <div class="intro-foot">Digital Society School · Living Legacy Walk · 20 January · <a href="kort" style="color:#fff">Five-minute listen</a></div>
     </div>
@@ -245,22 +245,22 @@ const STOPS = [
   { id:1, n:"1", title:"Beginnings", where:"Studio HvA, Eerste Boerhaavestraat 33E", short:"Studio HvA",
     lat:52.358681, lon:4.907859, src:"audio/track1.mp3",
     voices:[[0,"Narrator: where it started"],[22.5,"Anneke · Social Good Summit 2018"],[38.5,"Tom · our trainees"],[49.5,"Narrator"],[64,"Your turn to share"]],
-    cues:[[55.5,"question"]],
+    cues:[[64,"question",90.5]],
     question:"What first brought you here, and who opened the door?" },
   { id:2, n:"2", title:"Learning and community", where:"Kohnstammhuis forecourt, Wibautstraat", short:"Kohnstammhuis",
     lat:52.359048, lon:4.908771, src:"audio/track2.mp3",
     voices:[[0,"Narrator"],[11,"A trainee · Showcase"],[21,"A trainee · Showcase"],[29,"Narrator"],[35,"A trainee · 2018-19 cohort"],[43,"A 2022 team"],[55,"Narrator"],[68,"Your turn to share"]],
-    cues:[[60,"question"]],
+    cues:[[68.6,"question",95.5]],
     question:"Who made a difference for you here? Say their name." },
   { id:3, n:"3", title:"Collaboration", where:"Rhijnspoorplein", short:"Rhijnspoorplein",
     lat:52.359979, lon:4.908857, src:"audio/track3.mp3",
     voices:[[0,"Narrator"],[21,"Global Goals Jam hosts"],[26.4,"Anneke · Global Goals Jam"],[39.8,"Frank Kresin · then dean"],[65.5,"Narrator"],[71,"Your turn to share"]],
-    cues:[[65.8,"question"]],
+    cues:[[71,"question",92]],
     question:"What did we make possible together, and who did you make it possible with?" },
   { id:4, n:"4", title:"What continues", where:"TTH, under the Clubhouse windows", short:"Clubhouse", lab:"l",
     lat:52.359181, lon:4.907981, src:"audio/track4.mp3",
     voices:[[0,"Narrator · look up"],[14.5,"Frank Kresin"],[22,"Mariana"],[27.4,"Narrator"],[38.4,"Mari · Team Mirai"],[45.4,"Dear future, I'm ready..."],[98.4,"Narrator"],[104,"Your Dear future"],[119.4,"Lanterns off"],[131,"Dear Future theme"]],
-    cues:[[98.4,"dearfuture"],[119.2,"lanterns"]],
+    cues:[[104.5,"dearfuture",125.4]],
     question:"Dear future, I'm ready..." },
   { id:5, n:"5", title:"Going up", where:"TTH entrance, to the first floor", short:"Going up",
     lat:52.359181, lon:4.907981, src:"audio/track5.mp3", sameAsPrev:true,
@@ -268,9 +268,9 @@ const STOPS = [
     cues:[], question:null }
 ];
 const PROMPTS = {
-  question: s => ({k:"Turn to the person next to you", big:s.question, hint:"The music keeps playing while you talk. The singing bowl means it's time to walk on.", cls:""}),
-  dearfuture: () => ({k:"Your turn", big:"Dear future, I'm ready...", hint:"Finish the sentence for the person next to you.", cls:""}),
-  lanterns: () => ({k:"Together, on three", big:"Lanterns up. Switch off.", hint:"One, two, three.", cls:"lanterns"})
+  question: s => ({k:"Audio paused · Talk together", big:s.question, hint:"Take an earbud out and talk with the person next to you. When the guide walks on, tap Continue.", btn:"Continue", cls:""}),
+  dearfuture: () => ({k:"Audio paused · Your turn", big:"Dear future, I'm ready...", hint:"Finish the sentence for the person next to you.", btn:"Done", cls:"", next:"lanterns"}),
+  lanterns: () => ({k:"Look at the guide", big:"Lanterns up. Switch off together.", hint:"The guide counts to three. Switch off your lantern, then tap the button.", btn:"My lantern is off", cls:"lanterns"})
 };
 const RADIUS = 28;           // metres
 const MAX_ACC = 60;          // ignore fixes worse than this
@@ -303,7 +303,7 @@ function applyMode(){
   store.set("mode",mode);
   $("modePill").hidden = !isGuide();
   $("guideBox").hidden = !isGuide();
-  $("optMusic").checked = isGuide();
+  $("optMusic").checked = true; $("optAuto").checked = true;
   $("modeSwitch").textContent = isGuide() ? "Switch to listener mode" : "Switch to guide mode";
   $("hereBtn").textContent = isGuide() ? "We're here" : "I'm here";
   $("arrPlay").textContent = isGuide() ? "Start track" : "Play along";
@@ -406,12 +406,13 @@ function renderNow(){
 }
 function guideNote(){
   const s=STOPS[cur], nxt=STOPS[cur+1];
-  if(cur===0 && !done.has(0)) return aT.paused ? "Hand out the lanterns and give the live welcome, in the Gerard van Haarlemzaal or at the exit. Then press play for Track 0." : "When Track 0 ends, lead the group outside to Studio HvA.";
-  if(done.has(cur)){ return cur<5 ? "Lead the group to "+(nxt?nxt.short:"the next stop")+". Lo-fi plays on the speaker while you walk." : "Thank everyone. Dinner guests go up, the others hand in their lanterns."; }
-  if(!here()){ const d=lastFix?Math.round(dist(lastFix.lat,lastFix.lon,s.lat,s.lon))+" m, ":""; return "Walk to "+s.short+" ("+d+"music on the speaker). Stop where everyone can stand together, facing you."; }
-  if(cur===4) return aT.paused ? "Wait until the back of the group is in, then start. At \u201cLanterns up\u201d make sure everyone can see you." : "After the Dear Future theme, Track 5 starts by itself: open the door and lead the dinner guests up.";
+  if(!$("prompt").hidden && pendingResume!=null) return cur===4 ? "Everyone's audio is paused. Give people a moment for their Dear future, then count to three out loud: lanterns off together." : "Everyone's audio is paused for the conversation. After about a minute, raise your lantern and walk on: people tap Continue and hear the singing bowl.";
+  if(cur===0 && !done.has(0)) return "Hand out the lanterns, check that everyone has earbuds in and the app open. Then everyone presses play for Track 0.";
+  if(done.has(cur)){ return cur<5 ? "Lead the group to "+(nxt?nxt.short:"the next stop")+" in silence. Walk slowly so the back keeps up." : "Thank everyone. Dinner guests go up, the others hand in their lanterns."; }
+  if(!here()){ const d=lastFix?" ("+Math.round(dist(lastFix.lat,lastFix.lon,s.lat,s.lon))+" m)":""; return "Walk to "+s.short+d+". Stop where the group can stand together; their track starts on arrival."; }
+  if(cur===4) return "When the audio pauses, people share their Dear future. Then stand where everyone can see you and count to three: lanterns off.";
   if(cur===5) return "Lead the dinner guests to the first floor. Lift for anyone who needs it. Others: lanterns in the crate by the door.";
-  return aT.paused ? "Wait until the back of the group has arrived, then press play." : "Let people talk during the music. When the singing bowl sounds, walk on to "+(nxt?nxt.short:"the next stop")+".";
+  return "Stay with the group while they listen. The audio pauses by itself for the conversation.";
 }
 function updateStatus(){
   const s=STOPS[cur], st=$("status");
@@ -419,7 +420,7 @@ function updateStatus(){
   if(aT.paused && here() && !done.has(cur) && aT.currentTime<0.5) $("speaker").textContent = "Ready: "+s.title;
   if(aT.paused && !here() && !done.has(cur)){ $("speaker").textContent = (!aL.paused ? "Walking · lo-fi" : "Up next: "+s.title); $("tCur").textContent="0:00"; }
   if(done.has(cur)){ st.innerHTML = cur<5 ? "Track finished. Walk on to the next stop." : "Thank you for walking with us. See you upstairs."; return; }
-  if(here()){ st.innerHTML = aT.src && !aT.paused ? "Listening." : (isGuide() ? "<b>You're here.</b> Press play when the group is together." : "<b>You're here.</b> Tap play when the guide starts the speaker."); return; }
+  if(here()){ st.innerHTML = aT.src && !aT.paused ? "Listening." : "<b>You're here.</b> Press play to start the track."; return; }
   if(lastFix){
     const d=dist(lastFix.lat,lastFix.lon,s.lat,s.lon);
     st.innerHTML = `<b>${Math.round(d)} m</b> to ${s.short}${lastFix.acc>35?" · weak GPS signal":""}`;
@@ -471,14 +472,14 @@ aT.addEventListener("timeupdate", ()=>{
   if(!aT.paused || here()) $("speaker").textContent=who; else updateStatus();
   for(const [t,type] of s.cues){
     const key=cur+":"+t;
-    if(aT.currentTime>=t && aT.currentTime<t+8 && !shownCues.has(key)){ shownCues.add(key); showPrompt(PROMPTS[type](s)); }
+    if(aT.currentTime>=t && aT.currentTime<t+8 && !shownCues.has(key)){ shownCues.add(key); aT.pause(); pendingResume=s.cues.find(c=>c[0]===t)[2]; showPrompt(PROMPTS[type](s)); }
     if(aT.currentTime<t) shownCues.delete(key);
   }
 });
 aT.addEventListener("ended", ()=>{
   done.add(cur); save(); hidePrompt();
   if(cur<4){ cur++; save(); loadTrack(cur); fadeLoop(.35); toast("Walk on to "+STOPS[cur].short); }
-  else if(cur===4){ cur=5; arrived.add(5); save(); toast("Follow the guides inside"); if(isGuide() || $("optAuto").checked) setTimeout(()=>{ if(cur===5 && aT.paused && !done.has(5)) playTrack(); }, 4000); }
+  else if(cur===4){ cur=5; arrived.add(5); save(); toast("Follow the guides inside"); setTimeout(()=>{ if(cur===5 && aT.paused && !done.has(5)) playTrack(); }, 4000); }
   setPlayIcon(); renderNow(); checkArrival();
 });
 let seeking=false;
@@ -494,7 +495,7 @@ $("nextBtn").onclick = ()=>{
   aT.pause(); hidePrompt(); hideArrive();
   if(cur>=5){ done.add(5); save(); renderNow(); toast("Thank you for walking with us"); return; }
   done.add(cur); cur++; save();
-  if(cur===5){ arrived.add(5); save(); if(isGuide()) playTrack(); else loadTrack(5); } else { loadTrack(cur); fadeLoop(.35); }
+  if(cur===5){ arrived.add(5); save(); playTrack(); } else { loadTrack(cur); fadeLoop(.35); }
   renderNow(); checkArrival();
 };
 function goTo(i, fromList){
@@ -513,12 +514,18 @@ function mediaSession(){
 }
 
 /* ---------------- prompts ---------------- */
+let pendingResume=null, nextPrompt=null;
 function showPrompt(p){
+  $("pClose").textContent = p.btn || "Continue"; nextPrompt = p.next || null;
   $("prompt").className = p.cls; $("pKey").textContent=p.k; $("pBig").textContent=p.big; $("pHint").textContent=p.hint;
-  $("prompt").hidden=false; buzz([120,80,120]);
+  $("prompt").hidden=false; buzz([120,80,120]); updateStatus();
 }
-function hidePrompt(){ $("prompt").hidden=true; }
-$("pClose").onclick = hidePrompt;
+function hidePrompt(){ $("prompt").hidden=true; updateStatus(); }
+$("pClose").onclick = ()=>{
+  if(nextPrompt){ const n=nextPrompt; nextPrompt=null; showPrompt(PROMPTS[n](STOPS[cur])); return; }
+  hidePrompt();
+  if(pendingResume!=null){ aT.currentTime=pendingResume; pendingResume=null; aT.play().catch(()=>{}); }
+};
 
 /* ---------------- arrival ---------------- */
 function hideArrive(){ $("arrive").hidden=true; }
