@@ -239,31 +239,31 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radiu
 (() => {
 /* ---------------- content ---------------- */
 const STOPS = [
-  { id:0, n:"0", title:"Welcome", where:"Jakoba Mulderhuis exit, after the Gerard van Haarlemzaal", short:"Jakoba Mulderhuis", lab:"l",
-    lat:52.359681, lon:4.908113, src:"audio/track0.mp3",
+  { id:0, n:"0", title:"Welcome", where:"Entrance of the TTH Makers Lab (walk there from the Gerard van Haarlemzaal)", short:"Makers Lab", lab:"l", manual:true,
+    lat:52.359150, lon:4.907950, src:"audio/track0.mp3",
     voices:[[0,"Marco's AI twin"]], cues:[], question:null },
-  { id:1, n:"1", title:"Beginnings", where:"Studio HvA, Eerste Boerhaavestraat 33E", short:"Studio HvA",
-    lat:52.358681, lon:4.907859, src:"audio/track1.mp3",
+  { id:1, n:"1", title:"Beginnings", where:"Studio HvA (Venture Centre HvA)", short:"Studio HvA",
+    lat:52.358812, lon:4.908467, src:"audio/track1.mp3",
     voices:[[0,"Narrator: where it started"],[22.5,"Anneke · Social Good Summit 2018"],[38.5,"Tom · our trainees"],[49.5,"Narrator"],[64,"Your turn to share"]],
     cues:[[64,"question",90.5]],
     question:"What first brought you here, and who opened the door?" },
-  { id:2, n:"2", title:"Learning and community", where:"Kohnstammhuis forecourt, Wibautstraat", short:"Kohnstammhuis",
-    lat:52.359048, lon:4.908771, src:"audio/track2.mp3",
+  { id:2, n:"2", title:"Learning and community", where:"Kohnstammhuis, inside the revolving door", short:"Kohnstammhuis", lab:"l", manual:true,
+    lat:52.358950, lon:4.908313, src:"audio/track2.mp3",
     voices:[[0,"Narrator"],[11,"A trainee · Showcase"],[21,"A trainee · Showcase"],[29,"Narrator"],[35,"A trainee · 2018-19 cohort"],[43,"A 2022 team"],[55,"Narrator"],[68,"Your turn to share"]],
     cues:[[68.6,"question",95.5]],
     question:"Who made a difference for you here? Say their name." },
-  { id:3, n:"3", title:"Collaboration", where:"Rhijnspoorplein", short:"Rhijnspoorplein",
-    lat:52.359979, lon:4.908857, src:"audio/track3.mp3",
+  { id:3, n:"3", title:"Collaboration", where:"Under the canopy beside the Jakoba Mulderhuis (out via the copy centre exit)", short:"JMH canopy", lab:"l", manual:true,
+    lat:52.359624, lon:4.908139, src:"audio/track3.mp3",
     voices:[[0,"Narrator"],[21,"Global Goals Jam hosts"],[26.4,"Anneke · Global Goals Jam"],[39.8,"Frank Kresin · then dean"],[65.5,"Narrator"],[71,"Your turn to share"]],
     cues:[[71,"question",92]],
     question:"What did we make possible together, and who did you make it possible with?" },
-  { id:4, n:"4", title:"What continues", where:"TTH, under the Clubhouse windows", short:"Clubhouse", lab:"l",
-    lat:52.359181, lon:4.907981, src:"audio/track4.mp3",
+  { id:4, n:"4", title:"What continues", where:"Jakoba Mulderhuis atrium, under the Clubhouse (in via the revolving doors)", short:"JMH atrium", manual:true,
+    lat:52.359531, lon:4.908247, src:"audio/track4.mp3",
     voices:[[0,"Narrator · look up"],[14.5,"Frank Kresin"],[22,"Mariana"],[27.4,"Narrator"],[38.4,"Mari · Team Mirai"],[45.4,"Dear future, I'm ready..."],[98.4,"Narrator"],[104,"Your Dear future"],[119.4,"Lanterns off"],[131,"Dear Future theme"]],
     cues:[[104.5,"dearfuture",125.4]],
     question:"Dear future, I'm ready..." },
-  { id:5, n:"5", title:"Going up", where:"TTH entrance, to the first floor", short:"Going up",
-    lat:52.359181, lon:4.907981, src:"audio/track5.mp3", sameAsPrev:true,
+  { id:5, n:"5", title:"Going up", where:"Up the stairs to the DSS Clubhouse", short:"Going up",
+    lat:52.359531, lon:4.908247, src:"audio/track5.mp3", sameAsPrev:true,
     voices:[[0,"Narrator · directions"],[22,"Lo-fi"],[29.8,"Roland"],[45.4,"Prasam"],[60,"A trainee"],[76,"Ariane"],[92,"An early trainee"],[105,"A trainee"],[140.8,"Lauren"],[150,"Lo-fi"]],
     cues:[], question:null }
 ];
@@ -278,8 +278,8 @@ const MAX_ACC = 60;          // ignore fixes worse than this
 /* ---------------- helpers ---------------- */
 const $ = id => document.getElementById(id);
 const store = {
-  get(k,d){ try{ const v = localStorage.getItem("wwc2."+k); return v===null?d:JSON.parse(v);}catch(e){return d;} },
-  set(k,v){ try{ localStorage.setItem("wwc2."+k, JSON.stringify(v)); }catch(e){} }
+  get(k,d){ try{ const v = localStorage.getItem("wwc3."+k); return v===null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ try{ localStorage.setItem("wwc3."+k, JSON.stringify(v)); }catch(e){} }
 };
 const fmt = s => !isFinite(s) ? "0:00" : Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
 function dist(a,b,c,d){ const R=6371000, t=Math.PI/180, x=(d-b)*t*Math.cos((a+c)/2*t), y=(c-a)*t; return Math.sqrt(x*x+y*y)*R; }
@@ -407,11 +407,11 @@ function renderNow(){
 function guideNote(){
   const s=STOPS[cur], nxt=STOPS[cur+1];
   if(!$("prompt").hidden && pendingResume!=null) return cur===4 ? "Everyone's audio is paused. Give people a moment for their Dear future, then count to three out loud: lanterns off together." : "Everyone's audio is paused for the conversation. After about a minute, raise your lantern and walk on: people tap Continue and hear the singing bowl.";
-  if(cur===0 && !done.has(0)) return "Hand out the lanterns, check that everyone has earbuds in and the app open. Then everyone presses play for Track 0.";
+  if(cur===0 && !done.has(0)) return "Walk the group from the Gerard van Haarlemzaal to the TTH Makers Lab entrance. Hand out lanterns, check earbuds and the app, then everyone taps I'm here.";
   if(done.has(cur)){ return cur<5 ? "Lead the group to "+(nxt?nxt.short:"the next stop")+" in silence. Walk slowly so the back keeps up." : "Thank everyone. Dinner guests go up, the others hand in their lanterns."; }
-  if(!here()){ const d=lastFix?" ("+Math.round(dist(lastFix.lat,lastFix.lon,s.lat,s.lon))+" m)":""; return "Walk to "+s.short+d+". Stop where the group can stand together; their track starts on arrival."; }
+  if(!here()){ const d=lastFix?" ("+Math.round(dist(lastFix.lat,lastFix.lon,s.lat,s.lon))+" m)":""; return "Walk to "+s.where+(s.manual?"":d)+". Stop where the group can stand together"+(s.manual?" and say: tap I'm here.":"; their track starts on arrival."); }
   if(cur===4) return "When the audio pauses, people share their Dear future. Then stand where everyone can see you and count to three: lanterns off.";
-  if(cur===5) return "Lead the dinner guests to the first floor. Lift for anyone who needs it. Others: lanterns in the crate by the door.";
+  if(cur===5) return "Lead everyone up the stairs to the DSS Clubhouse; the track keeps playing on the way. Lift for anyone who needs it.";
   return "Stay with the group while they listen. The audio pauses by itself for the conversation.";
 }
 function updateStatus(){
@@ -421,6 +421,7 @@ function updateStatus(){
   if(aT.paused && !here() && !done.has(cur)){ $("speaker").textContent = (!aL.paused ? "Walking · lo-fi" : "Up next: "+s.title); $("tCur").textContent="0:00"; }
   if(done.has(cur)){ st.innerHTML = cur<5 ? "Track finished. Walk on to the next stop." : "Thank you for walking with us. See you upstairs."; return; }
   if(here()){ st.innerHTML = aT.src && !aT.paused ? "Listening." : "<b>You're here.</b> Press play to start the track."; return; }
+  if(s.manual){ st.innerHTML = "Follow the guide. Tap <b>I'm here</b> when the group stops."; return; }
   if(lastFix){
     const d=dist(lastFix.lat,lastFix.lon,s.lat,s.lon);
     st.innerHTML = `<b>${Math.round(d)} m</b> to ${s.short}${lastFix.acc>35?" · weak GPS signal":""}`;
@@ -561,7 +562,7 @@ function setGps(state, txt){ const g=$("gps"); g.className="gps "+state; $("gpsT
 function checkArrival(){
   if(!lastFix || lastFix.acc>MAX_ACC) return;
   const s=STOPS[cur];
-  if(done.has(cur) || arrived.has(cur)) return;
+  if(done.has(cur) || arrived.has(cur) || s.manual) return;
   const d=dist(lastFix.lat,lastFix.lon,s.lat,s.lon);
   if(d <= RADIUS + Math.min(lastFix.acc,20)*0.5) arrive(cur,false);
 }
@@ -590,7 +591,6 @@ async function begin(m){
   wake(); startGeo();
   if(isGuide() && "Notification" in window && Notification.permission==="default"){ try{ await Notification.requestPermission(); }catch(e){} }
   drawMap(); renderNow();
-  if(cur===0 && !arrived.has(0)){ arrive(0,true); }
   prefetch();
 }
 $("startBtn").onclick = ()=>begin("guest");
